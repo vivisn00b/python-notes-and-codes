@@ -85,14 +85,30 @@ print("-" * 50)
 
 
 # 7 Copying Lists — reference vs actual copy
+import copy
+
 nums = [1, 2, 3]
 copy1 = nums          # same reference
-copy2 = nums.copy()   # new list
+#For a simple list of immutable values:
+copy2 = nums.copy()   # new list; copy() is generally enough because integers are immutable.
 nums.append(4)
+#But with nested mutable objects:
+nums2 = [[1, 2], [3, 4]]
+print("nums:", nums) # [1, 2, 3]
+print("copy1:", copy1)
+print("copy2:", copy2)
+print("nums2:", nums2) # [[1, 2], [3, 4]]
+copy3 = copy.deepcopy(nums2)    # use deepcopy() if changes to b shouldn't affect a.
+copy3[0].append(99)
+copy4 = copy.copy(nums2)    # A shallow copy creates a new outer object, but nested objects are still shared.
+copy4[0].append(99)
 print("Copying Lists:")
 print("original nums:", nums)
 print("copy1 (same reference):", copy1)
 print("copy2 (independent):", copy2)
+print("copy3 (deep copy):", copy3) # [[1, 2, 99], [3, 4]]
+print("nums2 after shallow copy:", nums2) # [[1, 2, 99], [3, 4]]
+print("copy4 (shallow copy):", copy4) # [[1, 2, 99], [3, 4]]
 print("-" * 50)
 
 
